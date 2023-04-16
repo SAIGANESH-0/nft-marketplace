@@ -122,6 +122,10 @@ export default function Home() {
     setLoading(true);
     const itemCount = await marketplace.methods.itemCount().call();
     let listedItems = [];
+    let m = {
+      method: "HEAD",
+      mode: "no-cors",
+    };
 
     for (let indx = 1; indx <= itemCount; indx++) {
       const i = await marketplace.methods.items(indx).call();
@@ -129,7 +133,9 @@ export default function Home() {
       // get uri url from nft contract
       let uri2 = await nft.methods.tokenURI(i.tokenId).call();
       // use uri to fetch the nft metadata stored on ipfs
-      await axios.get(uri2);
+      let my = new Request(uri2, m);
+      await fetch(my);
+
       let totalPrice = await marketplace.methods.getTotalPrice(i.itemId).call();
       // define listed item object
       let item = {
