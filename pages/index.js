@@ -129,10 +129,8 @@ export default function Home() {
       // get uri url from nft contract
       let uri2 = await nft.methods.tokenURI(i.tokenId).call();
       // use uri to fetch the nft metadata stored on ipfs
-      const response2 = await fetch(uri2);
-      const totalPrice = await marketplace.methods
-        .getTotalPrice(i.itemId)
-        .call();
+      await axios.get(uri2);
+      let totalPrice = await marketplace.methods.getTotalPrice(i.itemId).call();
       // define listed item object
       let item = {
         totalPrice,
